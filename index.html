@@ -116,6 +116,7 @@ dialog{border:0;padding:0;background:transparent;max-width:min(94vw,760px);color
 dialog::backdrop{background:rgba(8,5,3,.9);backdrop-filter:blur(4px)}
 dialog img{max-height:82vh;max-width:100%;width:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.7)}
 dialog p{font:400 20px var(--display);text-align:center;margin:14px 0 0}
+dialog .orig{display:block;text-align:center;margin-top:8px;font:600 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
 
 /* TABLET */
 @media (max-width:900px){.feat{grid-template-columns:repeat(2,minmax(0,1fr))}.feat .fcard:nth-child(n+5){display:none}}
@@ -192,7 +193,7 @@ dialog p{font:400 20px var(--display);text-align:center;margin:14px 0 0}
   </div>
 </footer>
 
-<dialog id="dlg"><img id="dlgImg" alt=""><p id="dlgCap"></p></dialog>
+<dialog id="dlg"><img id="dlgImg" alt=""><p id="dlgCap"></p><a class="orig" id="dlgOrig" href="#" target="_blank" rel="noopener">Ver foto original ↗</a></dialog>
 
 <script src="data.js"></script>
 <script>
@@ -222,9 +223,9 @@ function card(b){const id=pad(b.n);
 function render(){const list=B.filter(b=>(cat==="all"||b.cat===cat)&&(!q||norm(b.name+" "+b.origin+" "+b.desc).includes(q)));
   $("grid").innerHTML=list.length?list.map(card).join(""):`<div class="empty">No hay piezas que coincidan.</div>`;
   $("count").textContent=`MOSTRANDO ${list.length} DE ${B.length} PIEZAS`;}
-function openItem(n){const it=B.find(x=>x.n==n);$("dlgImg").src=`img/${pad(it.n)}.jpg`;$("dlgImg").alt=it.name;$("dlgCap").textContent=`N.º ${pad(it.n)} · ${it.name}`;$("dlg").showModal();}
+function openItem(n){const it=B.find(x=>x.n==n);$("dlgImg").src=`img/${pad(it.n)}.jpg`;$("dlgImg").alt=it.name;$("dlgCap").textContent=`N.º ${pad(it.n)} · ${it.name}`;$("dlgOrig").href=`img/original/${pad(it.n)}.jpg`;$("dlg").showModal();}
 document.addEventListener("click",e=>{const b=e.target.closest("button[data-n]");if(b)openItem(b.dataset.n);});
-$("dlg").addEventListener("click",()=>$("dlg").close());
+$("dlg").addEventListener("click",e=>{if(!e.target.closest(".orig"))$("dlg").close();});
 render();
 </script>
 
