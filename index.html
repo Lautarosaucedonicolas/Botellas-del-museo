@@ -190,7 +190,7 @@ dialog .orig{display:block;text-align:center;margin-top:8px;font:600 12px var(--
   <div class="hero-in gutter">
     <div class="kicker">Colección · Lote 1 de 5 · Piezas 001–100</div>
     <h1>Botellas del <span class="glow">Museo</span></h1>
-    <p class="lede">Licores de época, coñacs franceses, decantadores de porcelana y whiskies de malta. Cien piezas, cada una con su foto original, su historia en tres líneas y lo que vale hoy en el mercado.</p>
+    <p class="lede">Licores de época, coñacs franceses, decantadores de porcelana y whiskies de malta. Cien piezas, cada una con su foto y su historia en tres líneas.</p>
     <div class="stats" id="stats"></div>
   </div>
 </section>
@@ -200,7 +200,7 @@ dialog .orig{display:block;text-align:center;margin-top:8px;font:600 12px var(--
 
 <section class="top3 gutter" aria-labelledby="top3-title">
   <div class="wrap">
-    <div class="sec-head"><h2 id="top3-title">Las 3 más <em>valiosas</em></h2><p>Las piezas con el precio de referencia más alto del lote. Mové el mouse o arrastrá con el dedo para girarlas.</p></div>
+    <div class="sec-head"><h2 id="top3-title">Las 3 más <em>valiosas</em></h2><p>Las piezas más cotizadas del lote. Mové el mouse o arrastrá con el dedo para girarlas.</p></div>
     <div class="podium" id="podium"></div>
     <div class="hint">↔ Arrastrá para girar</div>
   </div>
@@ -208,7 +208,7 @@ dialog .orig{display:block;text-align:center;margin-top:8px;font:600 12px var(--
 
 <section class="sec gutter">
   <div class="wrap">
-    <div class="sec-head"><h2>Piezas <em>destacadas</em></h2><p>Decantadores de porcelana, ediciones conmemorativas y las botellas más cotizadas del lote.</p></div>
+    <div class="sec-head"><h2>Piezas <em>destacadas</em></h2><p>Decantadores de porcelana, ediciones conmemorativas y piezas de colección.</p></div>
     <div class="feat" id="feat"></div>
   </div>
 </section>
@@ -229,12 +229,7 @@ dialog .orig{display:block;text-align:center;margin-top:8px;font:600 12px var(--
 
 <footer class="gutter">
   <div class="wrap">
-    <div class="legend">
-      <div><span class="tag T">Tienda</span> precio de venta actual</div>
-      <div><span class="tag S">Subasta</span> precio de martillo o estimación</div>
-      <div><span class="tag C">Coleccionista</span> avisos de piezas iguales o similares</div>
-    </div>
-    <p>Los precios son referencias encontradas en internet en septiembre de 2026, en la moneda de cada fuente. No son una tasación: una botella de época vale según su estado, nivel de líquido, precinto y estuche. Cuando no apareció la misma pieza se tomó la más parecida, y así se indica en cada ficha.</p>
+    <p>Colección de botellas del museo · Lote 1 de 5 · Piezas 001–100.</p>
   </div>
 </footer>
 
@@ -252,17 +247,17 @@ const V="?v=2"; // cambiar el número cuando se actualicen las fotos
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 
-$("stats").innerHTML=`<div><b>100</b><span>piezas</span></div><div><b>${B.filter(b=>b.price).length}</b><span>con precio</span></div><div><b>${B.filter(b=>b.cat==="D").length}</b><span>decantadores</span></div>`;
+$("stats").innerHTML=`<div><b>100</b><span>piezas</span></div><div><b>${B.filter(b=>b.cat==="W").length}</b><span>whiskies</span></div><div><b>${B.filter(b=>b.cat==="D").length}</b><span>decantadores</span></div>`;
 const names=[...new Set(B.map(b=>b.name.split(" ·")[0]))].slice(0,40).map(n=>`<span>${esc(n)}</span>`).join("");
 $("ticker").innerHTML=names+names;
-$("feat").innerHTML=FEAT.map(n=>{const b=B.find(x=>x.n===n);return `<button class="fcard" data-n="${n}" aria-label="Ampliar ${esc(b.name)}"><img src="img/${pad(n)}.jpg${V}" alt="${esc(b.name)}" loading="lazy"><span class="fcap"><span class="n">N.º ${pad(n)} · ${esc(b.origin)}</span><h3>${esc(b.name)}</h3><span class="p">${esc(b.price||"")}</span></span></button>`}).join("");
+$("feat").innerHTML=FEAT.map(n=>{const b=B.find(x=>x.n===n);return `<button class="fcard" data-n="${n}" aria-label="Ampliar ${esc(b.name)}"><img src="img/${pad(n)}.jpg${V}" alt="${esc(b.name)}" loading="lazy"><span class="fcap"><span class="n">N.º ${pad(n)} · ${esc(b.origin)}</span><h3>${esc(b.name)}</h3></span></button>`}).join("");
 
 
 const TOP=[{n:85,usd:"USD 499,99"},{n:74,usd:"≈ USD 465"},{n:29,usd:"≈ USD 333"}];
 $("podium").innerHTML=TOP.map((t,i)=>{const b=B.find(x=>x.n===t.n);const src=`img/top${pad(t.n)}.webp${V}`;
   return `<div class="pod${i===0?" first":""}" data-n="${t.n}"><div class="scene"><div class="back"></div><div class="rank" aria-hidden="true">${i+1}</div>
   <div class="shadow"></div><div class="bottle"><img src="${src}" alt="${esc(b.name)}"><img class="refl" src="${src}" alt="" aria-hidden="true"></div>
-  <div class="plate"><span class="medal">N.º ${i+1} · Pieza ${pad(t.n)}</span><h3>${esc(b.name)}</h3><span class="p">${esc(b.price)}${b.price.startsWith("USD")?"":` <small>${t.usd}</small>`}</span></div>
+  <div class="plate"><span class="medal">N.º ${i+1} · Pieza ${pad(t.n)}</span><h3>${esc(b.name)}</h3><span class="p"><small>${esc(b.origin)}</small></span></div>
   <div class="glare"></div></div></div>`}).join("");
 const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
 document.querySelectorAll(".pod").forEach((pod,idx)=>{const sc=pod.querySelector(".scene");let drag=null;
@@ -282,10 +277,8 @@ $("chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)
 $("q").addEventListener("input",e=>{q=norm(e.target.value);render();});
 
 function card(b){const id=pad(b.n);
-  const price=b.price?`<span class="amt">${esc(b.price)}</span><span class="tag ${b.src}">${SRC[b.src]}</span><span class="pnote">${esc(b.note)} · <a href="${esc(b.url)}" target="_blank" rel="noopener">ver fuente ↗</a></span>`
-  :`<span class="amt none">Sin referencia online</span><span class="pnote">No se encontró una venta comparable</span>`;
   return `<article class="card"><button class="shot" data-n="${b.n}" aria-label="Ampliar foto de ${esc(b.name)}"><img src="img/${id}.jpg${V}" alt="${esc(b.name)}" loading="lazy" width="480" height="640"><span class="num">N.º ${id}</span></button>
-  <div class="body"><div class="meta">${CATS[b.cat]} <i>· ${esc(b.origin)}</i></div><h3>${esc(b.name)}</h3><p class="desc">${esc(b.desc)}</p><div class="price">${price}</div></div></article>`}
+  <div class="body"><div class="meta">${CATS[b.cat]} <i>· ${esc(b.origin)}</i></div><h3>${esc(b.name)}</h3><p class="desc">${esc(b.desc)}</p></div></article>`}
 function render(){const list=B.filter(b=>(cat==="all"||b.cat===cat)&&(!q||norm(b.name+" "+b.origin+" "+b.desc).includes(q)));
   $("grid").innerHTML=list.length?list.map(card).join(""):`<div class="empty">No hay piezas que coincidan.</div>`;
   $("count").textContent=`MOSTRANDO ${list.length} DE ${B.length} PIEZAS`;}
